@@ -34,6 +34,31 @@
       #root {
         min-height: 100vh;
       }
+
+      /* Print Optimization */
+      @media print {
+        .no-print {
+          display: none !important;
+        }
+        body {
+          background-color: white !important;
+          color: black !important;
+        }
+        #root > div:not(.printable-area) {
+           display: none !important;
+        }
+        .printable-invoice {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100% !important;
+          max-width: none !important;
+          box-shadow: none !important;
+          border: none !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+      }
     </style>
     <script type="importmap">
 {

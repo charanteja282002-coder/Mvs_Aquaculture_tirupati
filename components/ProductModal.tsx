@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { X, Save, Upload } from 'lucide-react';
 import { Product } from '../types';
@@ -19,6 +18,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSave, ed
     imageUrl: '',
     stock: 0,
     weight: 0.1,
+    option: '',
     featured: false
   });
   
@@ -34,6 +34,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSave, ed
         imageUrl: editingProduct.imageUrl,
         stock: editingProduct.stock,
         weight: editingProduct.weight || 0.1,
+        option: editingProduct.option || '',
         featured: editingProduct.featured || false
       });
     } else {
@@ -45,6 +46,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSave, ed
         imageUrl: '',
         stock: 0,
         weight: 0.1,
+        option: '',
         featured: false
       });
     }
@@ -90,11 +92,18 @@ const ProductModal: React.FC<ProductModalProps> = ({ isOpen, onClose, onSave, ed
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase">Price (₹)</label>
               <input required type="number" value={formData.price} onChange={e => setFormData({...formData, price: parseFloat(e.target.value)})} className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 outline-none" />
             </div>
+            <div className="space-y-2">
+              <label className="text-xs font-bold text-slate-500 uppercase">Product Option (e.g., XL, 500ml)</label>
+              <input type="text" value={formData.option} onChange={e => setFormData({...formData, option: e.target.value})} className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 outline-none" placeholder="Leave empty if none" />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label className="text-xs font-bold text-slate-500 uppercase">Weight (kg)</label>
               <input required type="number" step="0.01" value={formData.weight} onChange={e => setFormData({...formData, weight: parseFloat(e.target.value)})} className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 outline-none" />

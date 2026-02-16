@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Lock, LayoutDashboard, Package, LogOut, Plus, Trash2, Edit2, ShoppingBag, Eye, TrendingUp, Settings } from 'lucide-react';
 import { Product, Order } from '../types';
@@ -76,7 +75,12 @@ const Admin: React.FC<AdminProps> = ({
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <h2 className="text-2xl font-bold">Manage Stock</h2>
-              <button onClick={handleOpenAddProduct} className="px-6 py-2 bg-cyan-600 text-white font-bold rounded-xl text-sm flex items-center gap-2"><Plus className="w-4 h-4" /> New SKU</button>
+              <button 
+                onClick={handleOpenAddProduct} 
+                className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-2xl text-sm flex items-center gap-2 transition-all shadow-lg shadow-cyan-900/20 active:scale-95"
+              >
+                <Plus className="w-4 h-4" /> New SKU
+              </button>
             </div>
             <div className="grid gap-4">
               {products.map(p => (
@@ -84,7 +88,10 @@ const Admin: React.FC<AdminProps> = ({
                   <div className="flex items-center gap-4">
                     <img src={p.imageUrl} className="w-12 h-12 rounded-lg object-cover" />
                     <div>
-                      <p className="font-bold">{p.name}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-bold">{p.name}</p>
+                        {p.option && <span className="text-[10px] bg-cyan-900/30 text-cyan-400 px-1.5 py-0.5 rounded font-bold border border-cyan-500/20">{p.option}</span>}
+                      </div>
                       <p className="text-xs text-slate-500">₹{p.price.toLocaleString()} • {p.weight}kg • Stock: {p.stock}</p>
                     </div>
                   </div>

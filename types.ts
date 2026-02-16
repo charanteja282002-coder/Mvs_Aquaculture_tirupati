@@ -1,4 +1,3 @@
-
 export interface Product {
   id: string;
   name: string;
@@ -8,6 +7,7 @@ export interface Product {
   imageUrl: string;
   stock: number;
   weight: number; // in kg
+  option?: string; // e.g., "XL", "500ml", "Starter Pack"
   featured?: boolean;
 }
 

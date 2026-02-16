@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { MessageCircle, Instagram, Youtube, ExternalLink } from 'lucide-react';
@@ -153,7 +152,7 @@ const App: React.FC = () => {
       date: new Date().toLocaleString(),
       customerName: user ? 'Admin' : 'MVS Customer',
       customerEmail: user?.email || '',
-      customerAddress: String(address), // Ensure it is a string
+      customerAddress: String(address),
       items: [...cart],
       subtotal,
       totalWeight,
@@ -165,22 +164,25 @@ const App: React.FC = () => {
 
     const whatsappUrl = generateWhatsAppUrl(order);
 
-    // Commit to state synchronously for local history
+    // Save order to history (for Admin access later)
     const updatedOrders = [order, ...orders];
     setOrders(updatedOrders);
-    setCurrentOrder(order);
+    
+    // Explicitly ensure currentOrder is NOT set for customers to remove the intermediate invoice page
+    // setCurrentOrder(order); 
+
     setCart([]);
     setIsCartOpen(false);
 
-    // Attempt to save to "cloud" and then immediately redirect
     try {
       await cloudService.saveDB({ orders: updatedOrders });
     } catch (err) {
       console.error("Local save failed", err);
-    } finally {
-      // Final Redirection
-      window.location.assign(whatsappUrl);
     }
+
+    // Use window.open with _blank to avoid "Refused to connect" error in framed environments.
+    // This allows the browser to correctly open the WhatsApp app or site.
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleLogin = (role: 'admin') => {
@@ -229,6 +231,8 @@ const App: React.FC = () => {
         </a>
 
         <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={updateCartQuantity} onRemove={removeFromCart} onCheckout={handleCheckout} />
+        
+        {/* Invoice component only renders when manually triggered (like from Admin dashboard) */}
         {currentOrder && (
           <Invoice 
             order={currentOrder} 

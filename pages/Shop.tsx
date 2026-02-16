@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Plus, FilterX } from 'lucide-react';
@@ -15,7 +14,7 @@ const Shop: React.FC<ShopProps> = ({ products, onAddToCart }) => {
   const [category, setCategory] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState<SortOption>('featured');
-  const [maxPrice, setMaxPrice] = useState<number>(20000);
+  const [maxPrice, setMaxPrice] = useState<number>(50000);
 
   const dynamicCategories = useMemo(() => {
     const cats = new Set(products.map(p => p.category.toLowerCase().trim()));
@@ -54,7 +53,7 @@ const Shop: React.FC<ShopProps> = ({ products, onAddToCart }) => {
   const clearFilters = () => {
     setCategory('all');
     setSearchTerm('');
-    setMaxPrice(20000);
+    setMaxPrice(50000);
     setSortBy('featured');
   };
 
@@ -160,6 +159,11 @@ const Shop: React.FC<ShopProps> = ({ products, onAddToCart }) => {
                 >
                   <Link to={`/product/${product.id}`} className="block aspect-[4/5] overflow-hidden relative">
                     <img src={product.imageUrl} alt={product.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    {product.option && (
+                      <div className="absolute top-4 left-4 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-white border border-white/10">
+                        {product.option}
+                      </div>
+                    )}
                     <button 
                       onClick={(e) => handleAddToCartClick(e, product)}
                       disabled={product.stock === 0}
@@ -175,7 +179,10 @@ const Shop: React.FC<ShopProps> = ({ products, onAddToCart }) => {
                       <span className="text-lg font-bold font-mono">₹{product.price.toLocaleString()}</span>
                     </div>
                     <Link to={`/product/${product.id}`}>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">{product.name}</h3>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-cyan-400 transition-colors">
+                        {product.name}
+                        {product.option && <span className="ml-2 text-sm text-slate-400 font-normal">({product.option})</span>}
+                      </h3>
                     </Link>
                     <p className="text-slate-500 text-sm mb-6 line-clamp-2">{product.description}</p>
                     

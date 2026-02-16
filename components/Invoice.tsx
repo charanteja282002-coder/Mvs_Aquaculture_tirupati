@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Printer, CheckCircle2, X, Fish, Phone, ShieldAlert, Calendar, MessageCircle, ArrowRight } from 'lucide-react';
 import { Order } from '../types';
@@ -11,16 +10,31 @@ interface InvoiceProps {
 }
 
 const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
-  const handlePrint = () => { window.print(); };
+  const handlePrint = () => { 
+    window.print(); 
+  };
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center px-4 overflow-y-auto py-8">
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-md" onClick={onClose} />
+    <div className="fixed inset-0 z-[120] flex items-center justify-center px-4 overflow-y-auto py-8 printable-area">
+      <div className="absolute inset-0 bg-black/90 backdrop-blur-md no-print" onClick={onClose} />
       
-      <div className="relative w-full max-w-3xl bg-white text-slate-900 rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-500 no-print my-auto">
-        <div className="absolute top-4 right-4 flex gap-2 no-print">
-          <button onClick={handlePrint} className="p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-600 transition-colors"><Printer className="w-5 h-5" /></button>
-          <button onClick={onClose} className="p-2 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-600 transition-colors"><X className="w-5 h-5" /></button>
+      <div className="relative w-full max-w-3xl bg-white text-slate-900 rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-500 my-auto printable-invoice">
+        {/* Actions Bar - Hidden in Print */}
+        <div className="absolute top-6 right-8 flex gap-3 no-print z-10">
+          <button 
+            onClick={handlePrint} 
+            title="Print Receipt"
+            className="p-3 bg-slate-100 hover:bg-cyan-100 hover:text-cyan-700 rounded-full text-slate-600 transition-all shadow-sm active:scale-95"
+          >
+            <Printer className="w-5 h-5" />
+          </button>
+          <button 
+            onClick={onClose} 
+            title="Close"
+            className="p-3 bg-slate-100 hover:bg-red-100 hover:text-red-700 rounded-full text-slate-600 transition-all shadow-sm active:scale-95"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         <div className="p-10 border-b-2 border-slate-100">
@@ -29,7 +43,7 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
               <Fish className="w-8 h-8 text-cyan-600" />
               <span className="text-2xl font-serif font-bold">MVS Aqua</span>
             </div>
-            <div className="text-right">
+            <div className="text-right pr-24 sm:pr-0">
               <p className="font-bold text-lg uppercase tracking-tight">Order Bill #{order.id}</p>
               <p className="text-slate-500 text-sm">{order.date}</p>
             </div>
@@ -50,7 +64,7 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
         </div>
 
         <div className="p-10">
-          <div className="bg-cyan-50 border border-cyan-100 p-4 rounded-2xl mb-8 flex items-start gap-4">
+          <div className="bg-cyan-50 border border-cyan-100 p-4 rounded-2xl mb-8 flex items-start gap-4 no-print">
             <CheckCircle2 className="w-6 h-6 text-cyan-600 shrink-0" />
             <div>
               <p className="text-sm font-bold text-cyan-900">Order successfully logged 👍🏻</p>
@@ -121,19 +135,19 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-3">
               <h4 className="font-bold text-xs uppercase tracking-widest text-slate-800 flex items-center gap-2"><Phone className="w-4 h-4" /> Payment Details</h4>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
+              <div className="text-[11px] text-slate-600 leading-relaxed">
                 No Cash on delivery. <b>Prepaid Orders Only.</b><br />
                 GPay / PhonePe: <span className="font-bold text-slate-900 underline underline-offset-2 decoration-cyan-500">94902 55775</span><br />
                 <span className="italic mt-1 block font-medium">Please send the payment screenshot to WhatsApp for processing.</span>
-              </p>
+              </div>
             </div>
             <div className="space-y-3 text-right">
               <h4 className="font-bold text-xs uppercase tracking-widest text-slate-800">Transit Policy</h4>
-              <p className="text-[11px] text-slate-600 leading-relaxed">
+              <div className="text-[11px] text-slate-600 leading-relaxed">
                 Track your parcel: <a href={STORE_CONFIG.trackingUrl} className="text-cyan-600 font-bold underline" target="_blank">tpcindia.com</a><br />
                 No replacement without <b>full unboxing video</b>. 💯<br />
                 In case of DOA (Death on Arrival), 45% of item value is refunded.
-              </p>
+              </div>
             </div>
           </div>
         </div>

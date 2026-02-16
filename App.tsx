@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { MessageCircle, Instagram, Youtube, ExternalLink } from 'lucide-react';
-import Navbar from './components/Navbar';
-import CartDrawer from './components/CartDrawer';
-import GeminiAssistant from './components/GeminiAssistant';
-import Invoice from './components/Invoice';
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import ProductDetail from './pages/ProductDetail';
-import Admin, { AdminLogin } from './pages/Admin';
-import About from './pages/About';
-import Contact from './pages/Contact';
-import { Product, CartItem, User, Order } from './types';
-import { MOCK_PRODUCTS, STORE_CONFIG } from './constants';
-import { cloudService } from './services/firebase';
+import Navbar from './components/Navbar.tsx';
+import CartDrawer from './components/CartDrawer.tsx';
+import GeminiAssistant from './components/GeminiAssistant.tsx';
+import Invoice from './components/Invoice.tsx';
+import Home from './pages/Home.tsx';
+import Shop from './pages/Shop.tsx';
+import ProductDetail from './pages/ProductDetail.tsx';
+import Admin, { AdminLogin } from './pages/Admin.tsx';
+import About from './pages/About.tsx';
+import Contact from './pages/Contact.tsx';
+import { Product, CartItem, User, Order } from './types.ts';
+import { MOCK_PRODUCTS, STORE_CONFIG } from './constants.tsx';
+import { cloudService } from './services/firebase.ts';
 
 const App: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -168,9 +168,6 @@ const App: React.FC = () => {
     const updatedOrders = [order, ...orders];
     setOrders(updatedOrders);
     
-    // Explicitly ensure currentOrder is NOT set for customers to remove the intermediate invoice page
-    // setCurrentOrder(order); 
-
     setCart([]);
     setIsCartOpen(false);
 
@@ -181,7 +178,6 @@ const App: React.FC = () => {
     }
 
     // Use window.open with _blank to avoid "Refused to connect" error in framed environments.
-    // This allows the browser to correctly open the WhatsApp app or site.
     window.open(whatsappUrl, '_blank');
   };
 
@@ -232,7 +228,6 @@ const App: React.FC = () => {
 
         <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} items={cart} onUpdateQuantity={updateCartQuantity} onRemove={removeFromCart} onCheckout={handleCheckout} />
         
-        {/* Invoice component only renders when manually triggered (like from Admin dashboard) */}
         {currentOrder && (
           <Invoice 
             order={currentOrder} 

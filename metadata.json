@@ -1,9 +1,16 @@
 {
   "name": "MVS Aqua - Premium Aquarium Store",
   "short_name": "MVSAqua",
-  "description": "A high-end e-commerce platform for aquarium enthusiasts, featuring a curated catalog, admin dashboard, and an AI-powered fish care assistant.",
+  "description": "Premium aquarium store specializing in exotic fish and high-end aquascaping gear.",
   "version": "1.0.0",
   "author": "MVS Aqua Team",
+  "store_config": {
+    "currency": "INR",
+    "currency_symbol": "₹",
+    "region": "India",
+    "support_hours": "10:00 AM - 8:00 PM IST",
+    "shipping_cutoff": "Monday 9:00 AM"
+  },
   "keywords": [
     "aquarium",
     "exotic fish",

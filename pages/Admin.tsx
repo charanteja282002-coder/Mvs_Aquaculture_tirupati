@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, LayoutDashboard, Package, LogOut, Plus, Trash2, Edit2, ShoppingBag, Eye, TrendingUp, Settings } from 'lucide-react';
+import { Lock, LayoutDashboard, Package, LogOut, Plus, Trash2, Edit2, ShoppingBag, Eye, TrendingUp } from 'lucide-react';
 import { Product, Order } from '../types';
 import ProductModal from '../components/ProductModal';
 
@@ -28,11 +28,14 @@ const Admin: React.FC<AdminProps> = ({
     { label: 'Orders (WA)', value: orders.length, icon: ShoppingBag, color: 'text-purple-500' },
   ];
 
-  const handleOpenAddProduct = () => { setEditingProduct(null); setIsProductModalOpen(true); };
+  const handleOpenAddProduct = () => { 
+    setEditingProduct(null); 
+    setIsProductModalOpen(true); 
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 flex flex-col md:flex-row gap-8">
-      <aside className="w-full md:w-64 space-y-2 shrink-0">
+      <aside className="w-full md:w-64 space-y-2 shrink-0 no-print">
         <nav className="space-y-1">
           {[
             { id: 'dashboard', icon: LayoutDashboard, label: 'Stats' },
@@ -53,7 +56,7 @@ const Admin: React.FC<AdminProps> = ({
         </div>
       </aside>
 
-      <main className="flex-1 bg-slate-900 border border-slate-800 rounded-3xl p-8 overflow-hidden min-h-[600px]">
+      <main className="flex-1 bg-slate-900 border border-slate-800 rounded-3xl p-8 overflow-hidden min-h-[600px] no-print">
         {activeTab === 'dashboard' && (
           <div className="space-y-8 animate-in fade-in duration-500">
             <h2 className="text-2xl font-bold">Admin Performance</h2>
@@ -86,12 +89,11 @@ const Admin: React.FC<AdminProps> = ({
               {products.map(p => (
                 <div key={p.id} className="p-4 bg-slate-800 rounded-2xl flex items-center justify-between group">
                   <div className="flex items-center gap-4">
-                    <img src={p.imageUrl} className="w-12 h-12 rounded-lg object-cover" />
+                    <img src={p.imageUrl} className="w-12 h-12 rounded-lg object-cover" alt={p.name} />
                     <div>
                       <div className="flex items-center gap-2">
                         <p className="font-bold">{p.name}</p>
                         <span className="text-[9px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded font-mono border border-slate-600">SKU: {p.sku}</span>
-                        {p.option && <span className="text-[10px] bg-cyan-900/30 text-cyan-400 px-1.5 py-0.5 rounded font-bold border border-cyan-500/20">{p.option}</span>}
                       </div>
                       <p className="text-xs text-slate-500">₹{p.price.toLocaleString()} • {p.weight}kg • Stock: {p.stock}</p>
                     </div>

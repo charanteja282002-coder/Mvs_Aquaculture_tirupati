@@ -16,14 +16,14 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
 
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center px-4 overflow-y-auto py-8 printable-area">
-      <div className="absolute inset-0 bg-black/90 backdrop-blur-md no-print" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/95 backdrop-blur-sm no-print" onClick={onClose} />
       
-      <div className="relative w-full max-w-3xl bg-white text-slate-900 rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-500 my-auto printable-invoice">
+      <div className="relative w-full max-w-3xl bg-white text-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden animate-in slide-in-from-bottom-8 duration-500 my-auto printable-invoice">
         {/* Actions Bar - Hidden in Print */}
-        <div className="absolute top-6 right-8 flex gap-3 no-print z-10">
+        <div className="absolute top-8 right-8 flex gap-3 no-print z-10">
           <button 
             onClick={handlePrint} 
-            className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl transition-all shadow-md active:scale-95 text-xs font-bold"
+            className="flex items-center gap-2 px-5 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl transition-all shadow-lg active:scale-95 text-xs font-bold"
           >
             <Download className="w-4 h-4" /> Download PDF
           </button>
@@ -41,88 +41,94 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
           </button>
         </div>
 
-        <div className="p-10 border-b-2 border-slate-100">
-          <div className="flex justify-between items-start mb-8">
-            <div className="flex items-center gap-2">
-              <Fish className="w-8 h-8 text-cyan-600" />
-              <span className="text-2xl font-serif font-bold">MVS Aqua</span>
+        <div className="p-12 border-b-2 border-slate-50">
+          <div className="flex justify-between items-start mb-10">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-cyan-600 rounded-xl">
+                <Fish className="w-8 h-8 text-white" />
+              </div>
+              <span className="text-3xl font-serif font-bold tracking-tight">MVS Aqua</span>
             </div>
-            <div className="text-right pr-24 sm:pr-0">
-              <p className="font-bold text-lg uppercase tracking-tight">Tax Invoice #{order.id}</p>
-              <p className="text-slate-500 text-sm">{order.date}</p>
+            <div className="text-right">
+              <p className="font-bold text-xl uppercase tracking-widest text-slate-400 mb-1">Tax Invoice</p>
+              <p className="text-2xl font-mono font-bold">#{order.id}</p>
+              <p className="text-slate-500 text-sm mt-1">{order.date}</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-12">
+          <div className="grid grid-cols-2 gap-16">
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Authorized Store</p>
-              <p className="font-bold text-slate-800">MVS Aqua Premium</p>
-              <p className="text-xs text-slate-500 leading-relaxed">{STORE_CONFIG.address}</p>
-              <p className="text-xs font-bold text-slate-800 mt-1">+91 {STORE_CONFIG.whatsapp}</p>
+              <p className="text-[10px] font-bold text-cyan-600 uppercase mb-3 tracking-[0.2em]">Authorized Seller</p>
+              <p className="font-bold text-slate-900 text-lg">MVS Aqua Premium Hub</p>
+              <p className="text-xs text-slate-500 leading-relaxed mt-2">{STORE_CONFIG.address}</p>
+              <div className="flex items-center gap-2 mt-3 text-sm font-bold">
+                <Phone className="w-4 h-4 text-slate-400" />
+                <span>+91 {STORE_CONFIG.whatsapp}</span>
+              </div>
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Bill To</p>
-              <p className="text-xs text-slate-800 whitespace-pre-wrap leading-relaxed font-medium">{order.customerAddress}</p>
+              <p className="text-[10px] font-bold text-cyan-600 uppercase mb-3 tracking-[0.2em]">Ship To</p>
+              <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                <p className="text-sm text-slate-800 whitespace-pre-wrap leading-relaxed font-medium">
+                  {order.customerAddress || 'Customer Address Details'}
+                </p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="p-10">
-          <div className="bg-cyan-50 border border-cyan-100 p-4 rounded-2xl mb-8 flex items-start gap-4 no-print">
-            <CheckCircle2 className="w-6 h-6 text-cyan-600 shrink-0" />
-            <div>
-              <p className="text-sm font-bold text-cyan-900">Order is Official ✅</p>
-              <p className="text-xs text-cyan-700">Thank you for choosing MVS Aqua. Your satisfaction is our priority 🥰</p>
-            </div>
-          </div>
-
-          <table className="w-full text-left mb-8">
+        <div className="p-12">
+          <table className="w-full text-left mb-10">
             <thead>
-              <tr className="border-b border-slate-100 text-slate-400 text-xs uppercase tracking-widest">
-                <th className="pb-4 font-bold">Item & SKU</th>
-                <th className="pb-4 font-bold text-center">Qty</th>
-                <th className="pb-4 font-bold text-right">Unit Price</th>
-                <th className="pb-4 font-bold text-right">Amount</th>
+              <tr className="border-b border-slate-200 text-slate-400 text-[10px] uppercase tracking-[0.2em]">
+                <th className="pb-5 font-bold">Item Description</th>
+                <th className="pb-5 font-bold text-center">Qty</th>
+                <th className="pb-5 font-bold text-right">Unit Price</th>
+                <th className="pb-5 font-bold text-right">Total</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-slate-100">
               {order.items.map((item, idx) => (
                 <tr key={idx} className="text-sm">
-                  <td className="py-4">
-                    <p className="font-bold text-slate-800">{item.name}</p>
-                    <div className="flex gap-2 items-center mt-1">
-                       <span className="text-[10px] text-slate-500 font-mono">SKU: {item.sku || 'N/A'}</span>
-                       <span className="text-[10px] text-slate-400 uppercase tracking-wide">• {item.weight} kg</span>
+                  <td className="py-6">
+                    <p className="font-bold text-slate-900 text-base">{item.name}</p>
+                    <div className="flex gap-3 items-center mt-1.5">
+                       <span className="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded font-mono border border-slate-200">SKU: {item.sku || 'N/A'}</span>
+                       <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">• {item.weight} kg</span>
                     </div>
                   </td>
-                  <td className="py-4 text-center font-medium">{item.quantity}</td>
-                  <td className="py-4 text-right text-slate-600">₹{item.price.toLocaleString()}</td>
-                  <td className="py-4 text-right font-bold text-slate-800">₹{(item.price * item.quantity).toLocaleString()}</td>
+                  <td className="py-6 text-center font-bold text-slate-600">{item.quantity}</td>
+                  <td className="py-6 text-right text-slate-500">₹{item.price.toLocaleString()}</td>
+                  <td className="py-6 text-right font-black text-slate-900">₹{(item.price * item.quantity).toLocaleString()}</td>
                 </tr>
               ))}
             </tbody>
           </table>
 
-          <div className="flex justify-between items-end mb-8">
-            <div className="space-y-2 text-slate-500">
-               <div className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest">
-                  <Calendar className="w-3 h-3" /> Ship Date: Next Monday
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 pt-8 border-t-2 border-slate-100">
+            <div className="space-y-4 max-w-sm">
+               <div className="flex items-center gap-3 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                  <Calendar className="w-4 h-4 text-cyan-500" /> Dispatch: Next Monday
                </div>
-               <div className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest text-red-600">
-                  <ShieldAlert className="w-3 h-3" /> Unboxing Video Mandatory
+               <div className="p-4 bg-red-50 rounded-2xl border border-red-100 flex items-start gap-3">
+                  <ShieldAlert className="w-5 h-5 text-red-600 shrink-0" />
+                  <p className="text-[10px] text-red-800 leading-normal font-bold uppercase tracking-wide">
+                    Mandatory: Record a full unboxing video without cuts for any damage claims. No video = No refund.
+                  </p>
                </div>
             </div>
-            <div className="w-full max-w-xs space-y-3">
+            
+            <div className="w-full md:w-80 space-y-3">
               <div className="flex justify-between text-sm">
-                <span className="text-slate-500">Subtotal</span>
-                <span className="font-medium">₹{order.subtotal.toLocaleString()}</span>
+                <span className="text-slate-400 font-medium">Cart Subtotal</span>
+                <span className="font-bold">₹{order.subtotal.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-slate-500">Shipping ({order.totalWeight.toFixed(2)} kg)</span>
-                <span className="font-medium">₹{order.shippingCharge.toLocaleString()}</span>
+                <span className="text-slate-400 font-medium">Shipping ({order.totalWeight.toFixed(2)} kg)</span>
+                <span className="font-bold">₹{order.shippingCharge.toLocaleString()}</span>
               </div>
-              <div className="flex justify-between text-xl font-bold border-t border-slate-200 pt-3">
-                <span className="text-slate-800">Grand Total</span>
+              <div className="flex justify-between text-2xl font-black pt-4 border-t border-slate-100 mt-2">
+                <span className="text-slate-900">Amount Paid</span>
                 <span className="text-cyan-600">₹{order.total.toLocaleString()}</span>
               </div>
             </div>
@@ -131,30 +137,30 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
           {whatsappLink && (
             <a 
               href={whatsappLink}
-              className="w-full py-5 bg-green-600 hover:bg-green-500 text-white font-bold rounded-2xl transition-all shadow-xl shadow-green-200 flex items-center justify-center gap-3 no-print active:scale-[0.98]"
+              target="_blank"
+              className="mt-12 w-full py-5 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl transition-all shadow-xl shadow-green-100 flex items-center justify-center gap-3 no-print active:scale-[0.98]"
             >
-              <MessageCircle className="w-6 h-6" /> Confirm via WhatsApp <ArrowRight className="w-5 h-5" />
+              <MessageCircle className="w-6 h-6" /> Send Payment Screenshot to WhatsApp
             </a>
           )}
         </div>
 
-        <div className="p-8 bg-slate-50 border-t border-slate-200">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-3">
-              <h4 className="font-bold text-xs uppercase tracking-widest text-slate-800 flex items-center gap-2"><Phone className="w-4 h-4" /> Payment Details</h4>
-              <div className="text-[11px] text-slate-600 leading-relaxed">
-                No Cash on delivery. <b>Prepaid Orders Only.</b><br />
-                GPay / PhonePe: <span className="font-bold text-slate-900 underline underline-offset-2 decoration-cyan-500">94902 55775</span><br />
-                <span className="italic mt-1 block font-medium">Please send the payment screenshot to WhatsApp for processing.</span>
-              </div>
+        <div className="p-10 bg-slate-50/50 border-t border-slate-100">
+          <div className="grid md:grid-cols-2 gap-12 text-[11px] text-slate-500">
+            <div className="space-y-2">
+              <h4 className="font-bold text-slate-900 uppercase tracking-widest text-xs flex items-center gap-2">
+                <Phone className="w-4 h-4 text-cyan-500" /> Payment & Verification
+              </h4>
+              <p className="leading-relaxed">
+                Accepted: GPay / PhonePe / PayTM to <span className="font-bold text-slate-900">94902 55775</span>.<br />
+                Please share the transaction ID and screenshot on WhatsApp for order confirmation. Orders are only processed after payment verification.
+              </p>
             </div>
-            <div className="space-y-3 text-right">
-              <h4 className="font-bold text-xs uppercase tracking-widest text-slate-800">Transit Policy</h4>
-              <div className="text-[11px] text-slate-600 leading-relaxed">
-                Track your parcel: <a href={STORE_CONFIG.trackingUrl} className="text-cyan-600 font-bold underline" target="_blank">tpcindia.com</a><br />
-                No replacement without <b>full unboxing video</b>. 💯<br />
-                In case of DOA (Death on Arrival), 45% of item value is refunded.
-              </div>
+            <div className="space-y-2 text-right">
+              <h4 className="font-bold text-slate-900 uppercase tracking-widest text-xs">Returns & DOA Policy</h4>
+              <p className="leading-relaxed">
+                Livestock DOA (Death on Arrival) is covered at 45% refund of item value with a valid unboxing video. Shipping charges are non-refundable. Track at: <span className="text-cyan-600 font-bold">tpcindia.com</span>
+              </p>
             </div>
           </div>
         </div>

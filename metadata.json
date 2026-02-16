@@ -1,0 +1,7 @@
+{
+  "name": "MVS Aqua - Premium Aquarium Store",
+  "description": "A high-end e-commerce platform for aquarium enthusiasts, featuring a curated catalog, admin dashboard, and an AI-powered fish care assistant.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

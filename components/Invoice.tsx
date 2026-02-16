@@ -1,5 +1,5 @@
 import React from 'react';
-import { Printer, CheckCircle2, X, Fish, Phone, ShieldAlert, Calendar, MessageCircle, ArrowRight } from 'lucide-react';
+import { Printer, CheckCircle2, X, Fish, Phone, ShieldAlert, Calendar, MessageCircle, ArrowRight, Download } from 'lucide-react';
 import { Order } from '../types';
 import { STORE_CONFIG } from '../constants';
 
@@ -23,14 +23,18 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
         <div className="absolute top-6 right-8 flex gap-3 no-print z-10">
           <button 
             onClick={handlePrint} 
-            title="Print Receipt"
-            className="p-3 bg-slate-100 hover:bg-cyan-100 hover:text-cyan-700 rounded-full text-slate-600 transition-all shadow-sm active:scale-95"
+            className="flex items-center gap-2 px-4 py-2.5 bg-cyan-600 hover:bg-cyan-700 text-white rounded-xl transition-all shadow-md active:scale-95 text-xs font-bold"
+          >
+            <Download className="w-4 h-4" /> Download PDF
+          </button>
+          <button 
+            onClick={handlePrint} 
+            className="p-3 bg-slate-100 hover:bg-slate-200 rounded-full text-slate-600 transition-all shadow-sm active:scale-95"
           >
             <Printer className="w-5 h-5" />
           </button>
           <button 
             onClick={onClose} 
-            title="Close"
             className="p-3 bg-slate-100 hover:bg-red-100 hover:text-red-700 rounded-full text-slate-600 transition-all shadow-sm active:scale-95"
           >
             <X className="w-5 h-5" />
@@ -44,20 +48,20 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
               <span className="text-2xl font-serif font-bold">MVS Aqua</span>
             </div>
             <div className="text-right pr-24 sm:pr-0">
-              <p className="font-bold text-lg uppercase tracking-tight">Order Bill #{order.id}</p>
+              <p className="font-bold text-lg uppercase tracking-tight">Tax Invoice #{order.id}</p>
               <p className="text-slate-500 text-sm">{order.date}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-12">
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Store Base</p>
+              <p className="text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Authorized Store</p>
               <p className="font-bold text-slate-800">MVS Aqua Premium</p>
               <p className="text-xs text-slate-500 leading-relaxed">{STORE_CONFIG.address}</p>
               <p className="text-xs font-bold text-slate-800 mt-1">+91 {STORE_CONFIG.whatsapp}</p>
             </div>
             <div>
-              <p className="text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Shipping To</p>
+              <p className="text-xs font-bold text-slate-400 uppercase mb-2 tracking-widest">Bill To</p>
               <p className="text-xs text-slate-800 whitespace-pre-wrap leading-relaxed font-medium">{order.customerAddress}</p>
             </div>
           </div>
@@ -67,7 +71,7 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
           <div className="bg-cyan-50 border border-cyan-100 p-4 rounded-2xl mb-8 flex items-start gap-4 no-print">
             <CheckCircle2 className="w-6 h-6 text-cyan-600 shrink-0" />
             <div>
-              <p className="text-sm font-bold text-cyan-900">Order successfully logged 👍🏻</p>
+              <p className="text-sm font-bold text-cyan-900">Order is Official ✅</p>
               <p className="text-xs text-cyan-700">Thank you for choosing MVS Aqua. Your satisfaction is our priority 🥰</p>
             </div>
           </div>
@@ -75,7 +79,7 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
           <table className="w-full text-left mb-8">
             <thead>
               <tr className="border-b border-slate-100 text-slate-400 text-xs uppercase tracking-widest">
-                <th className="pb-4 font-bold">Item Description</th>
+                <th className="pb-4 font-bold">Item & SKU</th>
                 <th className="pb-4 font-bold text-center">Qty</th>
                 <th className="pb-4 font-bold text-right">Unit Price</th>
                 <th className="pb-4 font-bold text-right">Amount</th>
@@ -86,7 +90,10 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
                 <tr key={idx} className="text-sm">
                   <td className="py-4">
                     <p className="font-bold text-slate-800">{item.name}</p>
-                    <p className="text-[10px] text-slate-500 uppercase tracking-wide">Weight: {item.weight} kg/unit</p>
+                    <div className="flex gap-2 items-center mt-1">
+                       <span className="text-[10px] text-slate-500 font-mono">SKU: {item.sku || 'N/A'}</span>
+                       <span className="text-[10px] text-slate-400 uppercase tracking-wide">• {item.weight} kg</span>
+                    </div>
                   </td>
                   <td className="py-4 text-center font-medium">{item.quantity}</td>
                   <td className="py-4 text-right text-slate-600">₹{item.price.toLocaleString()}</td>
@@ -99,7 +106,7 @@ const Invoice: React.FC<InvoiceProps> = ({ order, onClose, whatsappLink }) => {
           <div className="flex justify-between items-end mb-8">
             <div className="space-y-2 text-slate-500">
                <div className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest">
-                  <Calendar className="w-3 h-3" /> Dispatch: Every Monday
+                  <Calendar className="w-3 h-3" /> Ship Date: Next Monday
                </div>
                <div className="flex items-center gap-2 text-[10px] uppercase font-bold tracking-widest text-red-600">
                   <ShieldAlert className="w-3 h-3" /> Unboxing Video Mandatory

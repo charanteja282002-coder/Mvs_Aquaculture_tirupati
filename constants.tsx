@@ -1,9 +1,9 @@
-
 import { Product } from './types';
 
 export const MOCK_PRODUCTS: Product[] = [
   {
     id: '1',
+    sku: 'FISH-NEON-XL',
     name: 'Neon Tetra (XL)',
     description: 'Vibrant blue and red schooling fish, perfect for community tanks. Sold per piece.',
     price: 40,
@@ -15,6 +15,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: '2',
+    sku: 'SUB-ADA-9L',
     name: 'ADA Amazonia Ver. 2 (9L)',
     description: 'The world standard for planted aquarium substrate. Rich in nutrients for aquatic plants.',
     price: 3800,
@@ -26,6 +27,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: '3',
+    sku: 'PLNT-ANUB-PET',
     name: 'Anubias Nana Petite',
     description: 'Slow-growing, hardy epiphyte plant for aquascaping. High quality mother plant.',
     price: 350,
@@ -37,6 +39,7 @@ export const MOCK_PRODUCTS: Product[] = [
   },
   {
     id: '4',
+    sku: 'FLTR-EHM-2217',
     name: 'Eheim 2217 Classic',
     description: 'Reliable canister filter for tanks up to 600 liters. Includes all media.',
     price: 14500,

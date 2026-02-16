@@ -79,7 +79,7 @@ const Admin: React.FC<AdminProps> = ({
                 onClick={handleOpenAddProduct} 
                 className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-2xl text-sm flex items-center gap-2 transition-all shadow-lg shadow-cyan-900/20 active:scale-95"
               >
-                <Plus className="w-4 h-4" /> New SKU
+                <Plus className="w-4 h-4" /> Add Product
               </button>
             </div>
             <div className="grid gap-4">
@@ -90,6 +90,7 @@ const Admin: React.FC<AdminProps> = ({
                     <div>
                       <div className="flex items-center gap-2">
                         <p className="font-bold">{p.name}</p>
+                        <span className="text-[9px] bg-slate-700 text-slate-300 px-1.5 py-0.5 rounded font-mono border border-slate-600">SKU: {p.sku}</span>
                         {p.option && <span className="text-[10px] bg-cyan-900/30 text-cyan-400 px-1.5 py-0.5 rounded font-bold border border-cyan-500/20">{p.option}</span>}
                       </div>
                       <p className="text-xs text-slate-500">₹{p.price.toLocaleString()} • {p.weight}kg • Stock: {p.stock}</p>

@@ -1,6 +1,23 @@
 {
   "name": "MVS Aqua - Premium Aquarium Store",
+  "short_name": "MVSAqua",
   "description": "A high-end e-commerce platform for aquarium enthusiasts, featuring a curated catalog, admin dashboard, and an AI-powered fish care assistant.",
+  "version": "1.0.0",
+  "author": "MVS Aqua Team",
+  "keywords": [
+    "aquarium",
+    "exotic fish",
+    "aquascaping",
+    "ADA substrate",
+    "Tirupati",
+    "premium pets",
+    "fish care",
+    "aquarium equipment India"
+  ],
+  "site_url": "https://mvsaqua.com",
+  "theme_color": "#020617",
+  "background_color": "#020617",
+  "display": "standalone",
   "requestFramePermissions": [
     "microphone"
   ]

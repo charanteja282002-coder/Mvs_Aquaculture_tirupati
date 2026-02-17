@@ -1,16 +1,24 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { MessageCircle, Instagram, Youtube, ExternalLink } from 'lucide-react';
+import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { MessageCircle, Instagram, Youtube } from 'lucide-react';
+
+// Components
 import Navbar from './components/Navbar.tsx';
 import CartDrawer from './components/CartDrawer.tsx';
 import GeminiAssistant from './components/GeminiAssistant.tsx';
 import Invoice from './components/Invoice.tsx';
+import Loader from './components/Loader.tsx';
+
+// Pages
 import Home from './pages/Home.tsx';
 import Shop from './pages/Shop.tsx';
 import ProductDetail from './pages/ProductDetail.tsx';
 import Admin, { AdminLogin } from './pages/Admin.tsx';
 import About from './pages/About.tsx';
 import Contact from './pages/Contact.tsx';
+import NotFound from './pages/NotFound.tsx';
+
+// Services & Constants
 import { Product, CartItem, User, Order } from './types.ts';
 import { MOCK_PRODUCTS, STORE_CONFIG } from './constants.tsx';
 import { cloudService } from './services/firebase.ts';
@@ -22,6 +30,7 @@ const App: React.FC = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const refreshData = useCallback(async () => {
     try {
@@ -36,6 +45,9 @@ const App: React.FC = () => {
     } catch (err) {
       console.error("Critical: Database Sync Failure", err);
       setProducts(MOCK_PRODUCTS);
+    } finally {
+      // Small artificial delay for premium transition feel
+      setTimeout(() => setIsLoading(false), 800);
     }
   }, []);
 
@@ -163,8 +175,6 @@ const App: React.FC = () => {
     };
 
     const whatsappUrl = generateWhatsAppUrl(order);
-
-    // Save order to history (for Admin access later)
     const updatedOrders = [order, ...orders];
     setOrders(updatedOrders);
     
@@ -177,7 +187,6 @@ const App: React.FC = () => {
       console.error("Local save failed", err);
     }
 
-    // Use window.open with _blank to avoid "Refused to connect" error in framed environments.
     window.open(whatsappUrl, '_blank');
   };
 
@@ -192,28 +201,33 @@ const App: React.FC = () => {
     localStorage.removeItem('mvsaqua_user');
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <Router>
       <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
         <Navbar cartCount={cart.reduce((a, b) => a + b.quantity, 0)} onOpenCart={() => setIsCartOpen(true)} isAdmin={user?.role === 'admin'} />
         
         <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home products={products} onAddToCart={handleAddToCart} />} />
-            <Route path="/shop" element={<Shop products={products} onAddToCart={handleAddToCart} />} />
-            <Route path="/product/:id" element={<ProductDetail products={products} onAddToCart={handleAddToCart} />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/admin" element={user?.role === 'admin' ? <Navigate to="/admin/dashboard" /> : <AdminLogin onLogin={handleLogin} />} />
-            <Route path="/admin/dashboard" element={user?.role === 'admin' ? (
-              <Admin 
-                products={products} orders={orders}
-                onAddProduct={handleAddProduct} onUpdateProduct={handleUpdateProduct} onDeleteProduct={handleDeleteProduct}
-                onLogout={handleLogout} onViewOrder={(order) => setCurrentOrder(order)}
-              />
-            ) : <Navigate to="/admin" />}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path="/" element={<Home products={products} onAddToCart={handleAddToCart} />} />
+              <Route path="/shop" element={<Shop products={products} onAddToCart={handleAddToCart} />} />
+              <Route path="/product/:id" element={<ProductDetail products={products} onAddToCart={handleAddToCart} />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/admin" element={user?.role === 'admin' ? <Navigate to="/admin/dashboard" /> : <AdminLogin onLogin={handleLogin} />} />
+              <Route path="/admin/dashboard" element={user?.role === 'admin' ? (
+                <Admin 
+                  products={products} orders={orders}
+                  onAddProduct={handleAddProduct} onUpdateProduct={handleUpdateProduct} onDeleteProduct={handleDeleteProduct}
+                  onLogout={handleLogout} onViewOrder={(order) => setCurrentOrder(order)}
+                />
+              ) : <Navigate to="/admin" />}
+              <Route path="/404" element={<NotFound />} />
+              <Route path="*" element={<Navigate to="/404" />} />
+            </Routes>
+          </Suspense>
         </main>
 
         <a 

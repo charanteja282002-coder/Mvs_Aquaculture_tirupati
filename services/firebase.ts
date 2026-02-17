@@ -1,5 +1,4 @@
-
-import { Product, Order } from '../types';
+import { Product, Order } from '../types.ts';
 
 const DB_KEY = 'mvs_aqua_cloud_db_v2';
 
@@ -10,7 +9,6 @@ interface CloudDB {
 }
 
 export const cloudService = {
-  // Fix: Removed missing StaffMember and AuditLog types to align with types.ts
   async getDB(): Promise<CloudDB> {
     const data = localStorage.getItem(DB_KEY);
     if (!data) {

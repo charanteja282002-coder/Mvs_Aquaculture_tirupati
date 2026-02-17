@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, User, Menu, X, Fish, MessageCircle } from 'lucide-react';
-import { STORE_CONFIG } from '../constants';
+import { STORE_CONFIG } from '../constants.tsx';
 
 interface NavbarProps {
   cartCount: number;

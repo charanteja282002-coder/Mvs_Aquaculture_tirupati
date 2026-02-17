@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, LayoutDashboard, Package, LogOut, Plus, Trash2, Edit2, ShoppingBag, Eye, TrendingUp } from 'lucide-react';
-import { Product, Order } from '../types';
-import ProductModal from '../components/ProductModal';
+import { Product, Order } from '../types.ts';
+import ProductModal from '../components/ProductModal.tsx';
 
 interface AdminProps {
   products: Product[];

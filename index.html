@@ -16,8 +16,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     
     <script>
-      // Shim process for browser environment to prevent ReferenceError: process is not defined
-      window.process = window.process || { env: { API_KEY: '' } };
+      // More robust shim for process.env
+      if (typeof window.process === 'undefined') {
+        window.process = { env: { API_KEY: '' } };
+      } else if (typeof window.process.env === 'undefined') {
+        window.process.env = { API_KEY: '' };
+      }
     </script>
     
     <style>
@@ -71,6 +75,11 @@
         align-items: center;
         justify-content: center;
         z-index: 9999;
+        transition: opacity 0.5s ease-out, visibility 0.5s;
+      }
+      .pre-loader.fade-out {
+        opacity: 0;
+        visibility: hidden;
       }
       .loader-pulse {
         width: 40px;
@@ -108,11 +117,14 @@
     </script>
   </head>
   <body>
-    <div id="root">
-      <div class="pre-loader">
-        <div class="loader-pulse"></div>
-      </div>
+    <!-- Pre-loader starts visible -->
+    <div id="pre-loader" class="pre-loader">
+      <div class="loader-pulse"></div>
     </div>
+    
+    <!-- React app mounts here -->
+    <div id="root"></div>
+
     <script type="module" src="index.tsx"></script>
   </body>
 </html>
